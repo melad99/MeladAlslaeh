@@ -12,71 +12,13 @@ jQuery(function($) {
 	siteMenuClone();
 	mobileToggleClick();
 	onePageNavigation();
-	revealImages();
 	owlCarouselPlugin();
 	floatingLabel();
 	scrollWindow();
 	jarallaxPlugin();
 	contactForm();
-	animateReveal();
 
 });
-
-// Runs the gsap "wipe" reveal effect on .gsap-reveal-img (the About Me
-// photo). Previously this ran as a side effect of imagesLoaded().done()
-// firing on an empty #posts isotope grid (a leftover from the template's
-// old masonry portfolio) — isotope/imagesLoaded are gone now, so this runs
-// directly on ready instead. Same visual result, ~41KB lighter.
-var revealImages = function() {
-	$('.gsap-reveal-img').each(function() {
-		var html = $(this).html();
-		$(this).html('<div class="reveal-wrap"><span class="cover"></span><div class="reveal-content">'+html+'</div></div>');
-	});
-
-	var controller = new ScrollMagic.Controller();
-
-	var revealImg = $('.gsap-reveal-img');
-
-	if ( revealImg.length ) {
-		var i = 0;
-		revealImg.each(function() {
-
-			var cover = $(this).find('.cover'),
-				revealContent = $(this).find('.reveal-content'),
-				img = $(this).find('.reveal-content img');
-
-
-			var tl2 = new TimelineMax();
-
-
-			setTimeout(function() {
-
-				tl2
-					tl2.set(img, {  scale: '2.0', autoAlpha: 1, })
-					.to(cover, 1, { marginLeft: '0', ease:Expo.easeInOut, onComplete() {
-						tl2.set(revealContent, { autoAlpha: 1 });
-						tl2.to(cover, 1, { marginLeft: '102%', ease:Expo.easeInOut });
-						tl2.to(img, 2, { scale: '1.0', ease:Expo.easeOut }, '-=1.5');
-					} } )
-
-			}, i * 700);
-
-
-
-			var scene = new ScrollMagic.Scene({
-				triggerElement: this,
-				duration: "0%",
-				reverse: false,
-				offset: "-300%",
-			})
-			.setTween(tl2)
-			.addTo(controller);
-
-			i++;
-
-		});
-	}
-}
 
 var loader = function() {
 	setTimeout(function() {
@@ -442,81 +384,4 @@ var contactForm = function() {
 		} );
 	}
 };
-
-var animateReveal = function() {
-
-
-	var controller = new ScrollMagic.Controller();
-	
-	var greveal = $('.gsap-reveal');
-
-	// gsap reveal
-	$('.gsap-reveal').each(function() {
-		$(this).append('<span class="cover"></span>');
-	});
-	if ( greveal.length ) {
-		var revealNum = 0;
-		greveal.each(function() {
-			var cover = $(this).find('.cover');
-
-			var tl = new TimelineMax();
-
-			setTimeout(function() {
-				tl
-					.fromTo(cover, 2, { skewX: 0 }, { xPercent: 101, transformOrigin: "0% 100%", ease:Expo.easeInOut })
-			}, revealNum * 0);
-			
-			var scene = new ScrollMagic.Scene({
-				triggerElement: this,
-				duration: "0%",
-				reverse: false,
-				offset: "-300%",
-			})
-			.setTween(tl)
-			.addTo(controller);
-
-			revealNum++;
-
-		});
-	}
-
-	// gsap reveal hero
-	$('.gsap-reveal-hero').each(function() {
-		var html = $(this).html();
-		$(this).html('<span class="reveal-wrap"><span class="cover"></span><span class="reveal-content">'+html+'</span></span>');
-	});
-	var grevealhero = $('.gsap-reveal-hero');
-
-	if ( grevealhero.length ) {
-		var heroNum = 0;
-		grevealhero.each(function() {
-
-			var cover = $(this).find('.cover'),
-				revealContent = $(this).find('.reveal-content');
-
-			var tl2 = new TimelineMax();
-
-			setTimeout(function() {
-
-				tl2
-					.to(cover, 1, { marginLeft: '0', ease:Expo.easeInOut, onComplete() {
-						tl2.set(revealContent, { x: 0 });
-						tl2.to(cover, 1, { marginLeft: '102%', ease:Expo.easeInOut });
-					} } )
-			}, heroNum * 0 );
-
-			var scene = new ScrollMagic.Scene({
-				triggerElement: this,
-				duration: "0%",
-				reverse: false,
-				offset: "-300%",
-			})
-			.setTween(tl2)
-			.addTo(controller);
-
-			heroNum++;
-		});
-	}
-
-}
 
