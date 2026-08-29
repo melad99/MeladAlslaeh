@@ -1,4 +1,39 @@
-@import url("https://fonts.googleapis.com/css?family=Arimo:400|Raleway:300,400,700&display=swap");
+/* Self-hosted fonts (previously an @import from fonts.googleapis.com — that's
+   render-blocking and depends on Google's servers being reachable, which can
+   be slow/unreliable on some networks. Local files load instantly with the
+   rest of the site's own assets and add no extra external dependency). */
+@font-face {
+  font-family: "Arimo";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/arimo-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("fonts/raleway-300.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/raleway-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/raleway-700.woff2") format("woff2");
+}
+
 body {
   font-family: "Raleway", sans-serif;
   color: #fff;

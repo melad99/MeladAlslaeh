@@ -1,0 +1,348 @@
+/* ==========================================================================
+   Custom component styles for the rebuilt sections of this site
+   (hero stats, experience, projects, skills, education/certifications,
+   client logo badges). Loaded after css/style.css so these rules win
+   without needing !important. Dark theme only — no light mode.
+   ========================================================================== */
+
+/* Hero stat row (6 sites / 98% / 95%) — reuses counter-v1 sizing at a smaller scale */
+.stat-row {
+  margin-top: 2.5rem;
+}
+
+.stat-v1 {
+  text-align: center;
+}
+
+.stat-v1 .stat-number {
+  display: block;
+  font-size: 2.75rem;
+  font-weight: 900;
+  font-family: "Arimo", sans-serif;
+  color: #D63447;
+}
+
+.stat-v1 .stat-label {
+  display: block;
+  margin-top: .25rem;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.status-badge {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  padding: 6px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08rem;
+  text-transform: uppercase;
+}
+
+.status-badge .status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #3adb76;
+}
+
+/* Experience section */
+.experience-item {
+  margin-bottom: 3rem;
+}
+
+.experience-item .experience-icon {
+  font-size: 28px;
+  margin-bottom: 1rem;
+  color: #D63447;
+}
+
+.experience-item h3 {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: .25rem;
+}
+
+.experience-item .experience-org {
+  font-weight: 700;
+}
+
+.experience-item .experience-meta {
+  display: block;
+  margin-bottom: .75rem;
+  font-size: 12px;
+  letter-spacing: .05rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.experience-item ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.experience-item li {
+  margin-bottom: .4rem;
+}
+
+/* Project cards (replace old photo portfolio grid) */
+.project-card {
+  height: 100%;
+  padding: 2rem;
+  background-color: #212121;
+  border-radius: 6px;
+  transition: .3s all ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+
+.project-card .project-card-tag {
+  display: inline-block;
+  margin-bottom: .75rem;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.project-card h3 {
+  font-size: 19px;
+  font-weight: 900;
+  margin-bottom: .75rem;
+}
+
+.project-card .project-card-date {
+  display: block;
+  margin-top: 1rem;
+  font-size: 12px;
+  opacity: .6;
+}
+
+/* Skill tag pills */
+.skill-group {
+  margin-bottom: 2.5rem;
+}
+
+.skill-group h3 {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: .05rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Education & certifications */
+.edu-cert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  background-color: #212121;
+  border-radius: 8px;
+  transition: .3s all ease;
+}
+
+.edu-cert-item:hover {
+  transform: translateY(-2px);
+}
+
+.edu-cert-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(214, 52, 71, 0.12);
+  color: #D63447;
+  font-size: 18px;
+}
+
+.edu-cert-body {
+  min-width: 0;
+}
+
+.edu-cert-item h4 {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: .3rem;
+  line-height: 1.35;
+}
+
+.edu-cert-org {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.edu-cert-meta {
+  display: block;
+  margin-top: .15rem;
+  font-size: 12px;
+  letter-spacing: .04rem;
+  text-transform: uppercase;
+  opacity: .55;
+}
+
+/* Certifications grid — compact badge cards, two per row, since each entry
+   is short (name + issuer + year) and doesn't need the fuller Education layout */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 575.98px) {
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cert-badge {
+  padding: 1.25rem;
+  background-color: #212121;
+  border-radius: 8px;
+  text-align: center;
+  transition: .3s all ease;
+}
+
+.cert-badge:hover {
+  transform: translateY(-2px);
+}
+
+.cert-badge .edu-cert-icon {
+  margin: 0 auto .75rem auto;
+}
+
+.cert-badge h4 {
+  font-size: 14px;
+  font-weight: 900;
+  margin-bottom: .3rem;
+  line-height: 1.35;
+}
+
+.cert-badge .edu-cert-org {
+  font-size: 12px;
+}
+
+.cert-badge .edu-cert-meta {
+  margin-top: .1rem;
+}
+
+/* Sticky nav — the template's own .scrolled state hides itself again on
+   scroll-down (a "sleep" class, meant for a hide-then-reveal-on-scroll-up
+   pattern) and turns the bar white. Overridden here so once scrolled it just
+   stays fixed and visible, in a dark translucent bar matching the rest of
+   the page, so section links stay reachable while scrolling. */
+.unslate_co--site-nav.scrolled {
+  margin-top: 0 !important;
+  background: rgba(17, 17, 17, 0.92) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.unslate_co--site-nav.scrolled .unslate_co--site-logo,
+.unslate_co--site-nav.scrolled .site-nav-ul > li > a,
+.unslate_co--site-nav.scrolled .site-nav-ul-none-onepage > li > a {
+  color: #fff;
+}
+
+.unslate_co--site-nav.scrolled .site-nav-ul > li > a:hover,
+.unslate_co--site-nav.scrolled .site-nav-ul-none-onepage > li > a:hover {
+  color: #D63447;
+}
+
+.unslate_co--site-nav.scrolled .site-nav-ul > li > a:before,
+.unslate_co--site-nav.scrolled .site-nav-ul-none-onepage > li > a:before {
+  background: #fff;
+}
+
+.unslate_co--site-nav.scrolled .burger-toggle-menu span {
+  background: #fff;
+}
+
+/* Client logos carousel — owl-carousel handles the item spacing via its
+   `margin` option (set in js/main.js), so items here just need a consistent
+   size; .logo-v1 is the owl "item" wrapper */
+.logo-slider .logo-v1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Client logo wordmarks (interim, for orgs without a usable logo file yet) */
+.logo-wordmark {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Client logo badges — real logo images sit on a fixed-size white chip so
+   every logo (whatever its own aspect ratio) reads as a uniform card, and
+   stays legible against the dark page background regardless of its color */
+.logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 90px;
+  padding: 18px 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: .3s all ease;
+}
+
+.logo-badge:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.logo-badge img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Testimonial slides that have no avatar photo (LinkedIn recommendations don't
+   include one) — cancel the negative margin the template uses to tuck the
+   author info under a round avatar image */
+.testimonial-author-info.no-avatar {
+  margin-top: 0;
+}

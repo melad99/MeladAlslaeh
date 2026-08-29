@@ -6,107 +6,76 @@ AOS.init({
 });
 
 jQuery(function($) {
-	
+
 	'use strict';
 	loader();
 	siteMenuClone();
 	mobileToggleClick();
 	onePageNavigation();
-	siteIstotope();
-	portfolioItemClick();
+	revealImages();
 	owlCarouselPlugin();
 	floatingLabel();
 	scrollWindow();
-	counter();
 	jarallaxPlugin();
 	contactForm();
-	stickyFillPlugin();
 	animateReveal();
 
 });
 
-var siteIstotope = function() {
-	var $container = $('#posts').isotope({
-    itemSelector : '.item',
-    isFitWidth: true
-  });
+// Runs the gsap "wipe" reveal effect on .gsap-reveal-img (the About Me
+// photo). Previously this ran as a side effect of imagesLoaded().done()
+// firing on an empty #posts isotope grid (a leftover from the template's
+// old masonry portfolio) — isotope/imagesLoaded are gone now, so this runs
+// directly on ready instead. Same visual result, ~41KB lighter.
+var revealImages = function() {
+	$('.gsap-reveal-img').each(function() {
+		var html = $(this).html();
+		$(this).html('<div class="reveal-wrap"><span class="cover"></span><div class="reveal-content">'+html+'</div></div>');
+	});
 
-  $(window).resize(function(){
-    $container.isotope({
-      columnWidth: '.col-sm-3'
-    });
-  });
-  
-  $container.isotope({ filter: '*' });
+	var controller = new ScrollMagic.Controller();
 
-  $('#filters').on( 'click', 'a', function(e) {
-  	e.preventDefault();
-    var filterValue = $(this).attr('data-filter');
-    $container.isotope({ filter: filterValue });
-    $('#filters a').removeClass('active');
-    $(this).addClass('active');
-  });
+	var revealImg = $('.gsap-reveal-img');
 
-  $container.imagesLoaded()
-  .progress( function() {
-    $container.isotope('layout');
-  })
-  .done(function() {
-  	$('.gsap-reveal-img').each(function() {
-			var html = $(this).html();
-			$(this).html('<div class="reveal-wrap"><span class="cover"></span><div class="reveal-content">'+html+'</div></div>');
+	if ( revealImg.length ) {
+		var i = 0;
+		revealImg.each(function() {
+
+			var cover = $(this).find('.cover'),
+				revealContent = $(this).find('.reveal-content'),
+				img = $(this).find('.reveal-content img');
+
+
+			var tl2 = new TimelineMax();
+
+
+			setTimeout(function() {
+
+				tl2
+					tl2.set(img, {  scale: '2.0', autoAlpha: 1, })
+					.to(cover, 1, { marginLeft: '0', ease:Expo.easeInOut, onComplete() {
+						tl2.set(revealContent, { autoAlpha: 1 });
+						tl2.to(cover, 1, { marginLeft: '102%', ease:Expo.easeInOut });
+						tl2.to(img, 2, { scale: '1.0', ease:Expo.easeOut }, '-=1.5');
+					} } )
+
+			}, i * 700);
+
+
+
+			var scene = new ScrollMagic.Scene({
+				triggerElement: this,
+				duration: "0%",
+				reverse: false,
+				offset: "-300%",
+			})
+			.setTween(tl2)
+			.addTo(controller);
+
+			i++;
+
 		});
-
-  	var controller = new ScrollMagic.Controller();
-
-  	var revealImg = $('.gsap-reveal-img');
-
-  	if ( revealImg.length ) {
-  		var i = 0;
-			revealImg.each(function() {
-
-				var cover = $(this).find('.cover'),
-					revealContent = $(this).find('.reveal-content'),
-					img = $(this).find('.reveal-content img');
-
-
-				var tl2 = new TimelineMax();
-
-
-				setTimeout(function() {
-
-					tl2
-						tl2.set(img, {  scale: '2.0', autoAlpha: 1, })
-						.to(cover, 1, { marginLeft: '0', ease:Expo.easeInOut, onComplete() {
-							tl2.set(revealContent, { autoAlpha: 1 });
-							tl2.to(cover, 1, { marginLeft: '102%', ease:Expo.easeInOut });
-							tl2.to(img, 2, { scale: '1.0', ease:Expo.easeOut }, '-=1.5');
-						} } )
-
-				}, i * 700);
-
-				
-
-				var scene = new ScrollMagic.Scene({
-					triggerElement: this,
-					duration: "0%",
-					reverse: false,
-					offset: "-300%",
-				})
-				.setTween(tl2)
-				.addTo(controller);
-
-				i++;
-
-			});
-		}
-  })
-
-  $('.js-filter').on('click', function(e) {
-  	e.preventDefault();
-  	$('#filters').toggleClass('active');
-  });
-
+	}
 }
 
 var loader = function() {
@@ -181,17 +150,7 @@ var siteMenuClone = function() {
   	}
   });
 
-}; 
-
-
-
-
-// var siteIstotope = function() {
-
-
-	  
-	
-// }
+};
 
 var owlCarouselPlugin = function() {
 
@@ -206,7 +165,10 @@ var owlCarouselPlugin = function() {
     autoplayHoverPause: true,
     dots: true,
     nav: true,
-    navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
+    navText: [
+      '<span><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></span>',
+      '<span><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>'
+    ],
 
     responsive:{
         400:{
@@ -224,24 +186,25 @@ var owlCarouselPlugin = function() {
 	if ( $('.logo-slider').length ) {
 
 		$('.logo-slider').owlCarousel({
-			center: false,
+			center: true,
 	    loop: true,
 	    stagePadding: 0,
-	    margin: 0,
+	    margin: 40,
 	    smartSpeed: 1000,
 	    autoplay: true,
+	    autoplayTimeout: 2500,
 	    autoplayHoverPause: true,
 	    dots: false,
 	    nav: false,
 	    responsive:{
-		    400:{
+		    0:{
+		      items: 1
+		    },
+		    480:{
 		      items: 2
 		    },
 		    768:{
 		    	items: 3
-		    },
-		    1000:{
-		    	items: 5
 		    }
 	    }
 	   });
@@ -262,7 +225,10 @@ var owlSingleSlider = function () {
 	    autoplayHoverPause: true,
 	    dots: true,
 	    nav: true,
-	    navText: ['<span class="icon-keyboard_arrow_left">', '<span class="icon-keyboard_arrow_right">'],
+	    navText: [
+      '<span><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></span>',
+      '<span><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></span>'
+    ],
 
 	    responsive:{
 	      400:{
@@ -342,35 +308,6 @@ var scrollWindow = function() {
 };
 
 
-var counter = function() {
-	
-	$('.section-counter').waypoint( function( direction ) {
-
-		if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
-
-			var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
-			$(this.element).find('.number-counter').each(function(){
-				var $this = $(this),
-					num = $this.data('number');
-				$this.animateNumber(
-				  {
-				    number: num,
-				    numberStep: comma_separator_number_step
-				  }, 
-				  {
-				  	easing: 'swing',
-    				duration: 3000
-				  }
-				);
-			});
-			
-		}
-
-	} , { offset: '95%' } );
-
-};
-
-
 var mobileToggleClick = function() {
 	$('.js-menu-toggle').click(function(e) {
 
@@ -423,9 +360,12 @@ var onePageNavigation = function() {
     }
 
     var hash = this.hash;
-    
+    // Offset by the fixed nav's height so the target section's heading
+    // doesn't end up scrolled underneath the sticky bar.
+    var navOffset = $('.unslate_co--site-nav').outerHeight() || 90;
+
       $('html, body').animate({
-        scrollTop: $(hash).offset().top
+        scrollTop: $(hash).offset().top - navOffset
       }, 1000, 'easeInOutExpo');
 
   });
@@ -433,102 +373,9 @@ var onePageNavigation = function() {
 };
 
 
-// load ajax page
-var portfolioItemClick = function() {
-	$('.ajax-load-page').on('click', function(e) {
-		
-		var id = $(this).data('id'),
-			href = $(this).attr('href');
-
-		if ( $('#portfolio-single-holder > div').length ) {
-			$('#portfolio-single-holder > div').remove();
-		} 
-
-		TweenMax.to('.loader-portfolio-wrap', 1, { top: '-50px', autoAlpha: 1, display: 'block', ease: Power4.easeOut });
-
-		$('html, body').animate({
-    	scrollTop: $('#portfolio-section').offset().top - 50
-		}, 700, 'easeInOutExpo', function() {
-		});
-		
-		setTimeout(function(){
-			loadPortfolioSinglePage(id, href);
-		}, 100);
-
-		e.preventDefault();
-
-	});
-
-	// Close
-	$('body').on('click', '.js-close-portfolio', function() {
-
-		setTimeout(function(){
-			$('html, body').animate({
-	    	scrollTop: $('#portfolio-section').offset().top - 50
-			}, 700, 'easeInOutExpo');
-		}, 200);
-
-		TweenMax.set('.portfolio-wrapper', { visibility: 'visible', height: 'auto' });
-		TweenMax.to('.portfolio-single-inner', 1, { marginTop: '50px', opacity: 0,  display: 'none', onComplete() {
-			TweenMax.to('.portfolio-wrapper', 1, { marginTop: '0px', autoAlpha: 1, position: 'relative' });
-
-		} });
-		
-	});
-};
-
-$(document).ajaxStop(function(){
-	setTimeout(function(){
-		TweenMax.to('.loader-portfolio-wrap', 1, { top: '0px', autoAlpha: 0, ease: Power4.easeOut });	
-	}, 400);
-});
-
-var loadPortfolioSinglePage = function(id, href) {
-	$.ajax({
-		url: href,
-		type: 'GET',
-		success: function(html) {
-
-			TweenMax.to('.portfolio-wrapper', 1, { marginTop: '50px', autoAlpha: 0, visibility: 'hidden', onComplete() {
-				TweenMax.set('.portfolio-wrapper', { height: 0 });
-			} })
-
-			var pSingleHolder = $('#portfolio-single-holder');
-	    	
-			var getHTMLContent = $(html).find('.portfolio-single-wrap').html();
-
-			pSingleHolder.append(
-				'<div id="portfolio-single-'+id+
-				'" class="portfolio-single-inner"><span class="unslate_co--close-portfolio js-close-portfolio d-flex align-items-center"><span class="close-portfolio-label">Back to Portfolio</span><span class="icon-close2 wrap-icon-close"></span></span>' + getHTMLContent + '</div>'
-			);
-
-			setTimeout(function() {
-				owlSingleSlider();
-			}, 10);
-
-			setTimeout(function() {
-				TweenMax.set('.portfolio-single-inner', { marginTop: '100px', autoAlpha: 0, display: 'none' });
-				TweenMax.to('.portfolio-single-inner', .5, { marginTop: '0px', autoAlpha: 1, display: 'block', onComplete() {
-
-					TweenMax.to('.loader-portfolio-wrap', 1, { top: '0px', autoAlpha: 0, ease: Power4.easeOut });	
-				} });
-			}, 700 );
-		}
-	});
-
-	return false;
-
-};
-
 var jarallaxPlugin = function() {
 	$('.jarallax').jarallax({
     speed: 0.2
-	});
-	jarallax(document.querySelectorAll('.jarallax-video'), {
-    speed: 0.2,
-    videoSrc: 'https://www.youtube.com/watch?v=mwtbEGNABWU',
-    videoStartTime: 8,
-    videoEndTime: 70,
 	});
 };
 
@@ -553,31 +400,33 @@ var contactForm = function() {
 			},
 			errorElement: 'span',
 			errorLabelContainer: '.form-error',
-			/* submit via ajax */
-			submitHandler: function(form) {		
+			/* submit via ajax, to the endpoint set in the form's own action="" (Formspree) */
+			submitHandler: function(form) {
 				var $submit = $('.submitting'),
 					waitText = 'Submitting...';
 
-				$.ajax({   	
+				$.ajax({
 			      type: "POST",
-			      url: "php/send-email.php",
+			      url: $(form).attr('action'),
 			      data: $(form).serialize(),
+			      dataType: 'json',
+			      headers: { 'Accept': 'application/json' },
 
-			      beforeSend: function() { 
+			      beforeSend: function() {
 			      	$submit.css('display', 'block').text(waitText);
 			      },
-			      success: function(msg) {
-	               if (msg == 'OK') {
+			      success: function(response) {
+	               if (response && response.ok) {
 	               	$('#form-message-warning').hide();
 			            setTimeout(function(){
 	               		$('#contactForm').fadeOut();
 	               	}, 1000);
 			            setTimeout(function(){
-			               $('#form-message-success').fadeIn();   
+			               $('#form-message-success').fadeIn();
 	               	}, 1400);
-		               
+
 		            } else {
-		               $('#form-message-warning').html(msg);
+		               $('#form-message-warning').html("Something went wrong. Please try again.");
 			            $('#form-message-warning').fadeIn();
 			            $submit.css('display', 'none');
 		            }
@@ -587,16 +436,11 @@ var contactForm = function() {
 			         $('#form-message-warning').fadeIn();
 			         $submit.css('display', 'none');
 			      }
-		      });    		
+		      });
 	  		}
 			
 		} );
 	}
-};
-
-var stickyFillPlugin = function() {
-	var elements = document.querySelectorAll('.unslate_co--sticky');
-	Stickyfill.add(elements);
 };
 
 var animateReveal = function() {
