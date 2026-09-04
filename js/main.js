@@ -202,38 +202,38 @@ var floatingLabel = function () {
 // scroll
 var scrollWindow = function() {
 	var lastScrollTop = 0;
-	$(window).scroll(function(event){
-		var $w = $(this),
-				st = $w.scrollTop(),
-				navbar = $('.unslate_co--site-nav');
-				// sd = $('.js-scroll-wrap');
+	var navbar = $('.unslate_co--site-nav');
+	var ticking = false;
+
+	function updateNav() {
+		var st = $(window).scrollTop();
 
 		if (st > 150) {
 			if ( !navbar.hasClass('scrolled') ) {
-				navbar.addClass('scrolled');	
+				navbar.addClass('scrolled');
 			}
-		} 
+		}
 		if (st < 150) {
 			if ( navbar.hasClass('scrolled') ) {
 				navbar.removeClass('scrolled sleep');
 			}
-		} 
+		}
 		if ( st > 350 ) {
 			if ( !navbar.hasClass('awake') ) {
-				navbar.addClass('awake');	
-			} 
+				navbar.addClass('awake');
+			}
 
 			// hide / show on scroll
 			if (st > lastScrollTop){
 	      // downscroll code
-	      navbar.removeClass('awake');	
-	      navbar.addClass('sleep');	
+	      navbar.removeClass('awake');
+	      navbar.addClass('sleep');
 	   	} else {
 	      // upscroll code
-	      navbar.addClass('awake');	
+	      navbar.addClass('awake');
 	   	}
 	   	lastScrollTop = st;
-			
+
 
 		}
 		if ( st < 350 ) {
@@ -243,8 +243,18 @@ var scrollWindow = function() {
 			}
 		}
 
-   
+		ticking = false;
+	}
 
+	// Coalesce to one class-toggle pass per animation frame instead of
+	// running the full set of DOM reads/writes on every native scroll
+	// event (mobile browsers can fire these very rapidly during
+	// momentum scrolling, which was a contributor to scroll jank).
+	$(window).scroll(function() {
+		if ( !ticking ) {
+			window.requestAnimationFrame(updateNav);
+			ticking = true;
+		}
 	});
 
 };
@@ -317,7 +327,13 @@ var onePageNavigation = function() {
 
 var jarallaxPlugin = function() {
 	$('.jarallax').jarallax({
-    speed: 0.2
+    speed: 0.2,
+    // The parallax effect re-transforms the hero image on every scroll
+    // tick, which is what caused the stutter scrolling from the hero
+    // into the About section on phones. Serve it as a plain static
+    // background on touch devices instead - same image, no per-scroll
+    // recalculation.
+    disableParallax: /iPad|iPhone|iPod|Android/
 	});
 };
 
