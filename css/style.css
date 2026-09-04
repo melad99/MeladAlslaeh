@@ -1400,16 +1400,6 @@ figure.dotted-bg:before {
   position: relative;
 }
 
-/* The -45px pull above is tuned for the avatar-photo variant (a round
-   90px image is meant to float up over the card's edge there). Without
-   an avatar there's nothing to justify the overlap, and it was dragging
-   the name text straight through the card's red accent-bar shadow.
-   Let the no-avatar case sit in normal flow instead - robust regardless
-   of how long a name/title line runs or wraps. */
-.testimonial-v1 .testimonial-author-info.no-avatar {
-  margin-top: 24px;
-}
-
 .testimonial-v1 .testimonial-author-info img {
   width: 90px;
   margin: 0 auto 30px auto;

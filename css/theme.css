@@ -341,8 +341,93 @@
 }
 
 /* Testimonial slides that have no avatar photo (LinkedIn recommendations don't
-   include one) — cancel the negative margin the template uses to tuck the
-   author info under a round avatar image */
+   include one). style.css pulls the author info up -45px to tuck it under a
+   round avatar image; with no avatar there's nothing to justify that, and it
+   was dragging the name text through the card's red accent-bar shadow (a
+   box-shadow offset 30px below the card). Cancelling the pull to 0 isn't
+   quite enough to clear that shadow — needs a small positive gap instead. */
 .testimonial-author-info.no-avatar {
-  margin-top: 0;
+  margin-top: 24px;
+}
+
+/* "Currently Learning" progress list + "Take This With You" download card */
+.learn-list {
+  max-width: 560px;
+  margin: 0 auto 2.5rem auto;
+}
+
+.learn-item {
+  margin-bottom: 1.25rem;
+}
+
+.learn-item .learn-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .5rem;
+  font-size: 14px;
+}
+
+.learn-item .learn-top strong {
+  font-weight: 700;
+}
+
+.learn-item .learn-top span {
+  font-weight: 900;
+  color: #D63447;
+}
+
+.bar-track {
+  height: 8px;
+  border-radius: 30px;
+  background-color: #212121;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 30px;
+  background: #D63447;
+}
+
+.onepager {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #212121;
+  border-radius: 8px;
+}
+
+.onepager-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(214, 52, 71, 0.12);
+  color: #D63447;
+}
+
+.onepager-body h4 {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: .3rem;
+}
+
+.onepager-body p {
+  margin-bottom: 1rem;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 575.98px) {
+  .onepager {
+    flex-direction: column;
+    text-align: center;
+  }
 }
