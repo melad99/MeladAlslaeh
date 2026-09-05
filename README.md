@@ -13,6 +13,10 @@ Content is sourced from [meladalsaleh.com](https://meladalsaleh.com). Dark theme
 - **Purging unused Bootstrap CSS** (`bootstrap.min.css` is 178KB; the page only uses a fraction of it — grid, a handful of utilities, form controls): doing this safely needs a real tool (PurgeCSS/PostCSS) that parses every selector against the actual markup. Hand-trimming a single 178KB stylesheet by eye is exactly the kind of edit that silently breaks something — left as-is.
 - **Combining the 5 remaining render-blocking `<link>` stylesheets into one file**: would save a few requests, but on any modern host (HTTP/2+, which is the default on GitHub Pages/Netlify/Vercel/Cloudflare Pages) parallel small requests over one connection are cheap — not worth the risk of a manual merge (relative `url()` paths inside `owl.carousel.min.css`/`bootstrap.min.css` would need rewriting).
 
+## Done — this pass (nav link)
+
+- **"Learning" added to the nav** (`#growth-section`, between Education and Contact — matches page order): the new Growth section had been left unreachable from the nav bar. No JS changes needed — the mobile menu clones the same nav list, and ScrollSpy picks up any `.nav-link` automatically.
+
 ## Done — this pass (Recommendations hidden + new Growth section)
 
 - **Recommendations section hidden, not deleted**: wrapped in an HTML comment rather than removed, so it's a one-line change to bring back once there's more than one recommendation to show. Nothing else referenced it (no nav link, and `owlCarousel()` on the now-absent `.testimonial-slider` is a harmless no-op) — verified with zero console errors.
