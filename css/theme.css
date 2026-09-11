@@ -390,44 +390,156 @@
   background: #D63447;
 }
 
-.onepager {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  background-color: #212121;
-  border-radius: 8px;
+/* "Take This With You" resource carousel — starts with a single card; the
+   arrows/dots stay hidden (js/resource-carousel.js adds .single-item to
+   #resourceCarousel) until there's actually more than one to page through. */
+.resource-carousel {
+  max-width: 640px;
+  margin: 2.5rem auto 0 auto;
 }
 
-.onepager-icon {
-  flex: 0 0 auto;
+.resource-intro {
+  margin-top: .5rem;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.resource-carousel-wrap {
+  position: relative;
+  padding: 0 46px;
+}
+
+.resource-carousel.single-item .resource-carousel-wrap {
+  padding: 0;
+}
+
+.resource-carousel.single-item .resource-arrow,
+.resource-carousel.single-item .resource-dots {
+  display: none;
+}
+
+.resource-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.resource-track::-webkit-scrollbar {
+  display: none;
+}
+
+.res-card {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  padding: 1.75rem 1.5rem;
+  background-color: #212121;
+  border-radius: 8px;
+  text-align: center;
+  transition: .3s all ease;
+}
+
+.res-card:hover {
+  transform: translateY(-2px);
+}
+
+.res-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
+  margin: 0 auto .9rem auto;
   border-radius: 50%;
   background: rgba(214, 52, 71, 0.12);
   color: #D63447;
 }
 
-.onepager-body h4 {
+.res-card h4 {
   font-size: 16px;
   font-weight: 900;
-  margin-bottom: .3rem;
+  margin-bottom: .4rem;
 }
 
-.onepager-body p {
-  margin-bottom: 1rem;
+.res-card p {
+  margin-bottom: 1.1rem;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.6);
 }
 
-@media (max-width: 575.98px) {
-  .onepager {
-    flex-direction: column;
-    text-align: center;
-  }
+/* Download count badge — starts hidden (`hidden` attribute in the markup)
+   and js/download-counter.js reveals it once it has a real number, so there's
+   never a "0 downloads" flash or a broken-looking gap if the counter
+   function isn't reachable */
+.res-download-count {
+  display: block;
+  margin-top: .75rem;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06rem;
+  text-transform: uppercase;
+  opacity: .45;
+}
+
+/* Author styles win over the browser's default [hidden]{display:none} at equal
+   specificity, so the display:block above would otherwise show this element
+   (empty) before JS has a real count — this restores the hide. */
+.res-download-count[hidden] {
+  display: none;
+}
+
+.resource-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: .3s all ease;
+}
+
+.resource-arrow:hover {
+  border-color: #D63447;
+  color: #D63447;
+}
+
+.resource-arrow:disabled {
+  opacity: .3;
+  cursor: default;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.resource-arrow.prev { left: 0; }
+.resource-arrow.next { right: 0; }
+
+.resource-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 1rem;
+}
+
+.resource-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: .3s all ease;
+}
+
+.resource-dots span.active {
+  background: #D63447;
 }

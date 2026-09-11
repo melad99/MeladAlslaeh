@@ -1,0 +1,8 @@
+{
+  "name": "meladalsaleh-portfolio",
+  "private": true,
+  "description": "Static portfolio site. The only reason this file exists is to declare the one dependency the download-counter serverless function needs — the site itself is still plain HTML/CSS/JS with no build step.",
+  "dependencies": {
+    "@netlify/blobs": "^11.0.3"
+  }
+}

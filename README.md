@@ -1,12 +1,21 @@
 # Melad Alsaleh — Portfolio
 
-Static one-page portfolio site (plain HTML/CSS/JS, Bootstrap 4). No build step — open `index.html` directly or serve the folder with any static file server.
+Static one-page portfolio site (plain HTML/CSS/JS, Bootstrap 4) — open `index.html` directly or serve the folder with any static file server, no build step for the site itself. The one exception: a single Netlify Function (`netlify/functions/track-download.js`) backs the download counter on the resource cards, which needs `npm install` on deploy to pull in its one dependency (`@netlify/blobs`) — Netlify does this automatically when it sees `package.json`. Nothing else changes: the counter fails silently (just stays hidden) if that function isn't reachable, e.g. when opening `index.html` locally without `netlify dev`.
 
 Content is sourced from [meladalsaleh.com](https://meladalsaleh.com). Dark theme only.
 
 ## Still to do
 
 - **ICRC bullets**: the ICT Specialist @ ICRC bullets in the Experience section are a professional-sounding draft (flagged with a `TODO` comment in `index.html`) — review and edit them to match your actual responsibilities.
+- **Verify the download counter on real Netlify** (see below) — I built and wired it up but couldn't exercise the live serverless function myself (no browser/Netlify environment available in that session). After deploying, click the CV Template's download button, refresh, and confirm the count shows and goes up.
+
+## Done — this pass (download counter)
+
+- **Added a download counter to the resource cards** (`netlify/functions/track-download.js` + `js/download-counter.js`), backed by Netlify Blobs — a real cross-visitor count, not just a per-browser number. You chose this over a free third-party counter API (external dependency, easily-inflated public count, history of these services disappearing) or private-analytics-only (no visible number on the card).
+  - New files: `package.json` (declares the one dependency, `@netlify/blobs`), `netlify.toml` (points Netlify at `netlify/functions/` and tells it to publish the repo root), `netlify/functions/track-download.js` (the function itself — `GET ?id=<x>` reads a count, `POST {id:<x>}` increments it), `js/download-counter.js` (client-side: fetches the count on load, posts an increment on click).
+  - **Currently wired to the CV Template card only** (`data-download-id="cv-template"`) — the "Coming Soon" card has no live download link yet, so nothing to count. Add `data-download-id="..."` + a `<span class="res-download-count" hidden></span>` to a card, list the id in `ALLOWED_IDS` in the function, and it'll start counting — same "just add the pieces, it activates itself" pattern as the carousel.
+  - **Not a security feature**: there's no auth on the function (by design — this is a public counter on a public file), and the "one count per browser" guard is a plain `localStorage` flag, trivially reset by clearing site data or using another browser. It stops one visitor from inflating the number by mashing the button, nothing more.
+  - **Fails silently**: if the function isn't deployed/reachable (e.g. opening `index.html` locally, or a transient error), the counter badge just stays hidden — never an error message, never blocks the actual download.
 
 ## Investigated but not done
 
@@ -72,5 +81,7 @@ Content is sourced from [meladalsaleh.com](https://meladalsaleh.com). Dark theme
 
 - `index.html` — the whole site
 - `css/style.css` — base template styles; `css/theme.css` — custom component styles (project cards, skill tags, experience/education items, logo badges)
-- `js/main.js` — template behavior (nav, carousels, contact form)
+- `js/main.js` — template behavior (nav, carousels, contact form); `js/resource-carousel.js` — the "Take This With You" carousel; `js/download-counter.js` — its download counter
+- `netlify/functions/track-download.js` — serverless function backing the download counter (Netlify Blobs storage); `package.json` + `netlify.toml` exist only to support this
 - `images/` — photos and site graphics
+- `files/` — downloadable resources (CV, CV template, etc.)

@@ -515,18 +515,47 @@
             </div>
           </div>
 
-          <!-- <div class="onepager" data-aos="fade-up">
-            <span class="onepager-icon"><svg class="icon-svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
-            <div class="onepager-body">
-              <h4>Take This With You</h4>
-              <p>A one-page summary of skills, coverage, and contact info &mdash; easy to forward internally.</p>
-              <a href="files/Melad_Alsaleh_CV.pdf" target="_blank" rel="noopener" class="btn btn-outline-pill btn-custom-light">Download PDF</a>
+          <div class="resource-carousel" id="resourceCarousel" data-aos="fade-up">
+            <div class="section-heading-wrap text-center mb-4">
+              <h3 class="heading-h3"><span class="gsap-reveal">Take This With You</span></h3>
+              <p class="resource-intro gsap-reveal">A few things you're welcome to download and use.</p>
             </div>
-          </div> -->
+
+            <div class="resource-carousel-wrap">
+              <button type="button" class="resource-arrow prev" id="resourcePrev" aria-label="Previous resource">
+                <svg class="icon-svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+
+              <div class="resource-track" id="resourceTrack">
+                <!-- Add more .res-card blocks here any time — the carousel arrows/dots
+                     reveal themselves automatically once there's more than one. -->
+                      <div class="res-card" data-download-id="cv-template">
+                  <span class="res-icon"><svg class="icon-svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+                  <h4>CV Template</h4>
+                  <p>A clean, editable CV template, free to reuse.</p>
+                  <a href="files/CV_Template.docx" target="_blank" rel="noopener" class="btn btn-outline-pill btn-custom-light" download>Download DOCX</a>
+                  <span class="res-download-count" hidden></span>
+                </div>
+                <div class="res-card">
+                  <span class="res-icon"><svg class="icon-svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></span>
+                  <h4>Coming Soon</h4>
+                  <p>More resources coming soon!</p>
+                  <!-- <a href="files/Melad_Alsaleh_CV.pdf" target="_blank" rel="noopener" class="btn btn-outline-pill btn-custom-light" download>Download PDF</a> -->
+                </div>
+               
+              </div>
+
+              <button type="button" class="resource-arrow next" id="resourceNext" aria-label="Next resource">
+                <svg class="icon-svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+
+            <div class="resource-dots" id="resourceDots"></div>
+          </div>
 
         </div>
       </div>
-      <!-- END growth section: "Currently Learning" progress list + "Take This With You" one-pager download -->
+      <!-- END growth section: "Currently Learning" progress list + "Take This With You" resource carousel (1 card today; add more .res-card elements to #resourceTrack and the arrows/dots activate on their own — see js/resource-carousel.js) -->
 
       <div class="unslate_co--section" id="contact-section">
         <div class="container">
@@ -636,6 +665,8 @@
 
     <script src="js/scripts-dist.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/resource-carousel.js"></script>
+    <script src="js/download-counter.js"></script>
 
   </body>
 </html>
